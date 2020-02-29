@@ -1,0 +1,33 @@
+name:                rrule
+version:             0.1.0.0
+github:              "mitchellvitez/rrule"
+license:             BSD3
+author:              "Mitchell Vitez"
+maintainer:          "mitchell@vitez.me"
+copyright:           "2020 Mitchell Vitez"
+
+extra-source-files:
+- README.md
+- ChangeLog.md
+
+# Metadata used when publishing your package
+# synopsis:            Parses and formats recurrence rules
+
+description:         Please see the README on GitHub at <https://github.com/mitchellvitez/rrule#readme>
+
+dependencies:
+- base >= 4.7 && < 5
+
+library:
+  source-dirs: src
+
+tests:
+  rrule-test:
+    main:                Spec.hs
+    source-dirs:         test
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies:
+    - rrule

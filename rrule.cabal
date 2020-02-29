@@ -1,0 +1,62 @@
+cabal-version: 1.12
+
+-- This file has been generated from package.yaml by hpack version 0.31.2.
+--
+-- see: https://github.com/sol/hpack
+--
+-- hash: c7b7e528952cc15c14edc161ee0ae9f5eaadad869bfb0168b00bbd183182c523
+
+name:           rrule
+version:        0.1.0.0
+description:    Please see the README on GitHub at <https://github.com/mitchellvitez/rrule#readme>
+homepage:       https://github.com/mitchellvitez/rrule#readme
+bug-reports:    https://github.com/mitchellvitez/rrule/issues
+author:         Mitchell Vitez
+maintainer:     mitchell@vitez.me
+copyright:      2020 Mitchell Vitez
+license:        BSD3
+build-type:     Simple
+extra-source-files:
+    README.md
+
+source-repository head
+  type: git
+  location: https://github.com/mitchellvitez/rrule
+
+library
+  exposed-modules:
+      RRule
+  other-modules:
+      Paths_rrule
+      Parse
+      Types
+  hs-source-dirs:
+      src
+  build-depends:
+      base >=4.7 && <5
+    , megaparsec
+    , text
+    , time
+    , parser-combinators
+  extensions:
+      OverloadedStrings
+    , LambdaCase
+    , RecordWildCards
+  default-language: Haskell2010
+
+test-suite rrule-test
+  type: exitcode-stdio-1.0
+  main-is: Spec.hs
+  other-modules:
+      Paths_rrule
+  hs-source-dirs:
+      test
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N -Wall
+  build-depends:
+      base >=4.7 && <5
+    , rrule
+    , hspec
+    , text
+  extensions:
+      OverloadedStrings
+  default-language: Haskell2010
