@@ -1,6 +1,11 @@
 module RRule
   ( fromText
   , toText
+  , defaultRRule
+  , RRule(..)
+  , Day(..)
+  , Frequency(..)
+  , ToText(toText)
   )
 where
 
