@@ -8,7 +8,6 @@ copyright:           "2020 Mitchell Vitez"
 
 extra-source-files:
 - README.md
-- ChangeLog.md
 
 # Metadata used when publishing your package
 # synopsis:            Parses and formats recurrence rules
@@ -17,6 +16,10 @@ description:         Please see the README on GitHub at <https://github.com/mitc
 
 dependencies:
 - base >= 4.7 && < 5
+- megaparsec
+- text
+- time
+- parser-combinators
 
 library:
   source-dirs: src
@@ -31,3 +34,5 @@ tests:
     - -with-rtsopts=-N
     dependencies:
     - rrule
+    - hspec
+    - text
