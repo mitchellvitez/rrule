@@ -4,7 +4,7 @@ module Parse
 where
 
 import Prelude hiding (until)
-import Types (defaultRRule, RRule(..), Day(..), Frequency(..), ToText)
+import Types (defaultRRule, RRule(..), Day(..), Frequency(..), ToRRule)
 import Control.Monad (msum)
 import Data.List.NonEmpty (NonEmpty(..))
 import Data.Text (Text, intercalate, pack, unpack)

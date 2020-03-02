@@ -3,7 +3,7 @@ module Types
   , RRule(..)
   , Day(..)
   , Frequency(..)
-  , ToText(toText)
+  , ToRRule(toRRule)
   )
 where
 
@@ -13,25 +13,24 @@ import Data.Text (Text, intercalate, pack, unpack)
 import Data.Time.Format (formatTime, defaultTimeLocale)
 import Data.Time.Clock (UTCTime)
 
-class Show a => ToText a where
-  toText :: a -> Text
-  toText = pack . show
+class Show a => ToRRule a where
+  toRRule :: a -> Text
+  toRRule = pack . show
 
-instance ToText Int where
-  toText = pack . show
+instance ToRRule Int
 
-instance ToText a => ToText (NonEmpty a) where
-  toText (x :| xs) = intercalate "," $ toText x : map toText xs
+instance ToRRule a => ToRRule (NonEmpty a) where
+  toRRule (x :| xs) = intercalate "," $ toRRule x : map toRRule xs
 
-instance (Show a, Integral a, ToText b) => ToText (a, b) where
-  toText (a, b) = (if a == 0 then "" else pack $ show a) <> toText b
+instance (Show a, Integral a, ToRRule b) => ToRRule (a, b) where
+  toRRule (a, b) = (if a == 0 then "" else pack $ show a) <> toRRule b
 
-instance ToText UTCTime where
-  toText = pack . formatTime defaultTimeLocale "%Y%m%dT%H%M%SZ"
+instance ToRRule UTCTime where
+  toRRule = pack . formatTime defaultTimeLocale "%Y%m%dT%H%M%SZ"
 
-instance ToText a => ToText (Maybe a) where
-  toText Nothing = ""
-  toText (Just a) = toText a
+instance ToRRule a => ToRRule (Maybe a) where
+  toRRule Nothing = ""
+  toRRule (Just a) = toRRule a
 
 data Frequency
   = Secondly
@@ -43,8 +42,8 @@ data Frequency
   | Yearly
   deriving (Eq, Show)
 
-instance ToText Frequency where
-  toText = \case
+instance ToRRule Frequency where
+  toRRule = \case
     Secondly -> "SECONDLY"
     Minutely -> "MINUTELY"
     Hourly   -> "HOURLY"
@@ -56,8 +55,8 @@ instance ToText Frequency where
 data Day = Sunday | Monday | Tuesday | Wednesday | Thursday | Friday | Saturday
   deriving (Eq, Show)
 
-instance ToText Day where
-  toText = \case
+instance ToRRule Day where
+  toRRule = \case
     Sunday    -> "SU"
     Monday    -> "MO"
     Tuesday   -> "TU"
