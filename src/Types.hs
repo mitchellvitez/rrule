@@ -29,6 +29,10 @@ instance (Show a, Integral a, ToText b) => ToText (a, b) where
 instance ToText UTCTime where
   toText = pack . formatTime defaultTimeLocale "%Y%m%dT%H%M%SZ"
 
+instance ToText a => ToText (Maybe a) where
+  toText Nothing = ""
+  toText (Just a) = toText a
+
 data Frequency
   = Secondly
   | Minutely
