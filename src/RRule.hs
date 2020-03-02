@@ -48,7 +48,7 @@ labelWith label (Just x) = Just $ label <> "=" <> toText x
 
 description :: RRule -> Text
 description RRule{..} = intercalate " " $ catMaybes
-  [ posDescription <$> bySetPos
+  [ byDescription "the" ordinal "instance of" bySetPos
   , if isJust frequency then Just "every" else Nothing
   , intervalDescription interval
   , frequencyDescription <$> frequency
@@ -64,12 +64,6 @@ description RRule{..} = intercalate " " $ catMaybes
   , untilDescription <$> until
   , weekStartDescription <$> weekStart
   ]
-
-posDescription :: NE.NonEmpty Int -> Text
-posDescription ns = "the " <> (intercalate " and " $ map ordinal $ NE.toList ns) <> " instance of"
-
-weekStartDescription :: Day -> Text
-weekStartDescription d = "with weeks starting on " <> pack (show d)
 
 ordinal :: Int -> Text
 ordinal n
@@ -88,9 +82,7 @@ ordinal n
 
 ordinalDay :: (Int, Day) -> Text
 ordinalDay (0, d) = pack (show d)
-ordinalDay (-1, d) = "the last " <> pack (show d)
-ordinalDay (n, d) =
-  "the " <> ordinal n <> " " <> pack (show d)
+ordinalDay (n, d) = "the " <> ordinal n <> " " <> pack (show d)
 
 byUsualDescription :: Text -> Maybe (NE.NonEmpty Int) -> Maybe Text
 byUsualDescription t = byDescription "on the" ordinal t
@@ -101,10 +93,10 @@ byDescription inOrOn toOrdinal t (Just ns) =
   Just $ inOrOn <> " " <> (intercalateAnd . map toOrdinal $ NE.toList ns) <> (if t == "" then "" else (" " <> t))
 
 intercalateAnd :: [Text] -> Text
-intercalateAnd [] = ""
-intercalateAnd [t] = t
 intercalateAnd [t1, t2, t3] = t1 <> ", " <> t2 <> ", and " <> t3
 intercalateAnd [t1, t2] = t1 <> " and " <> t2
+intercalateAnd [t] = t
+intercalateAnd [] = ""
 intercalateAnd (t:ts) = t <> ", " <> intercalateAnd ts
 
 monthName :: Int -> Text
@@ -141,7 +133,10 @@ frequencyDescription freq = case freq of
   Yearly   -> "year"
 
 countDescription :: Int -> Text
-countDescription n = "for " <> pack (show n) <> " occurrences"
+countDescription n = "for " <> toText n <> " occurrences"
 
 untilDescription :: UTCTime -> Text
 untilDescription t = "until " <> (pack $ formatTime defaultTimeLocale "%B %d, %Y at %H:%M:%S" t)
+
+weekStartDescription :: Day -> Text
+weekStartDescription d = "with weeks starting on " <> pack (show d)
