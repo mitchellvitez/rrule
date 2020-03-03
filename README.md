@@ -1,18 +1,28 @@
 # rrule
 
-Mitchell Vitez, 2020
+## Recurrence rule parser and formatter
 
-## Usage
+`fromText` parses from a recurrence rule Text to the RRule type
 
-This code is meant to be used as a library so you don't have to write recurrence-rule-parsing code yourself
+```haskell
+> let rule = fromJust $ fromText "RRULE:FREQ=MONTHLY;INTERVAL=1;BYMONTHDAY=1"
+> rule
+RRule {prefix = True, frequency = Just Monthly, byMonthDay = Just (1 :| []), ... }
+```
 
-Use `stack test` to run tests
+`toText` formats an RRule to a recurrence rule Text
 
-## Functionality
+```haskell
+> toText rule
+"RRULE:FREQ=MONTHLY;INTERVAL=1;BYMONTHDAY=1"
+```
 
-- `fromText` parses from a recurrence rule string to the Haskell RRule type
-- `toText` formats an RRule to Text
-- `description` gives you a description of what an RRule means, in English
+`description` gives a description of what an RRule means, in English
+
+```haskell
+> description rule
+"every month on the 1st day of the month"
+```
 
 ## Possible future additions 
 

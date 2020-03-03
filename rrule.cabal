@@ -1,13 +1,8 @@
 cabal-version: 1.12
 
--- This file has been generated from package.yaml by hpack version 0.31.2.
---
--- see: https://github.com/sol/hpack
---
--- hash: c7b7e528952cc15c14edc161ee0ae9f5eaadad869bfb0168b00bbd183182c523
-
 name:           rrule
 version:        0.1.0.0
+synopsis:       Recurrence rule parser and formatter
 description:    Please see the README on GitHub at <https://github.com/mitchellvitez/rrule#readme>
 homepage:       https://github.com/mitchellvitez/rrule#readme
 bug-reports:    https://github.com/mitchellvitez/rrule/issues
@@ -15,7 +10,9 @@ author:         Mitchell Vitez
 maintainer:     mitchell@vitez.me
 copyright:      2020 Mitchell Vitez
 license:        BSD3
+license-file:   LICENSE
 build-type:     Simple
+category:       Time
 extra-source-files:
     README.md
 
@@ -38,7 +35,7 @@ library
     , text               >= 1.2.3 && < 1.3
     , parser-combinators >= 1.2.1 && < 1.3
     , time               >= 1.8.0 && < 1.9
-  extensions:
+  default-extensions:
       OverloadedStrings
     , LambdaCase
     , RecordWildCards
@@ -57,6 +54,6 @@ test-suite rrule-test
     , hspec              >= 2.7.1 && < 2.8
     , rrule
     , text
-  extensions:
+  default-extensions:
       OverloadedStrings
   default-language: Haskell2010
