@@ -3,7 +3,7 @@ cabal-version: 1.12
 name:           rrule
 version:        0.1.0.0
 synopsis:       Recurrence rule parser and formatter
-description:    Please see the README on GitHub at <https://github.com/mitchellvitez/rrule#readme>
+description:    Recurrence rule parser and formatter
 homepage:       https://github.com/mitchellvitez/rrule#readme
 bug-reports:    https://github.com/mitchellvitez/rrule/issues
 author:         Mitchell Vitez
@@ -22,7 +22,7 @@ source-repository head
 
 library
   exposed-modules:
-      RRule
+      Data.Time.RRule
   other-modules:
       Paths_rrule
       Parse

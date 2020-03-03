@@ -1,6 +1,6 @@
 import Test.Hspec
 import Data.Text
-import RRule
+import Data.Time.RRule
 
 -- many of these test cases were taken from
 -- https://icalendar.org/iCalendar-RFC-5545/3-8-5-3-recurrence-rule.html

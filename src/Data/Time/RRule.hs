@@ -1,4 +1,4 @@
-module RRule
+module Data.Time.RRule
   ( fromText
   , toText
   , defaultRRule
