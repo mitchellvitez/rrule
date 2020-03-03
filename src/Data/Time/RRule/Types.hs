@@ -1,4 +1,4 @@
-module Types
+module Data.Time.RRule.Types
   ( defaultRRule
   , RRule(..)
   , Day(..)

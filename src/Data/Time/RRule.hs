@@ -9,18 +9,26 @@ module Data.Time.RRule
   )
 where
 
-import Parse (parseRRule)
+import Data.Maybe (catMaybes, isJust)
+import Data.Text (Text, intercalate, pack, unpack)
 import Data.Time.Clock (UTCTime)
 import Data.Time.Format (formatTime, defaultTimeLocale)
-import Data.Text (Text, intercalate, pack, unpack)
-import Types as Ty (defaultRRule, RRule(..), Day(..), Frequency(..), ToRRule(toRRule))
+import Data.Time.RRule.Parse (parseRRule)
+import Data.Time.RRule.Types as Ty
+  ( defaultRRule
+  , RRule(..)
+  , Day(..)
+  , Frequency(..)
+  , ToRRule(toRRule)
+  )
 import Text.Megaparsec (parseMaybe)
-import Data.Maybe (catMaybes, isJust)
 import qualified Data.List.NonEmpty as NE (NonEmpty(..), toList)
 
+-- | Parses RFC 5545 recurrence rule text into an RRule
 fromText :: Text -> Maybe RRule
 fromText = parseMaybe parseRRule
 
+-- | Formats RRule as RFC 5545 recurrence rule text
 toText :: RRule -> Text
 toText RRule{..} =
   (if prefix then "RRULE:" else "") <>
@@ -45,6 +53,7 @@ labelWith :: ToRRule a => Text -> Maybe a -> Maybe Text
 labelWith _ Nothing = Nothing
 labelWith label (Just x) = Just $ label <> "=" <> toRRule x
 
+-- | Describes what an RRule means, in English
 description :: RRule -> Text
 description RRule{..} = intercalate " " $ catMaybes
   [ byDescription "the" ordinal "instance of" bySetPos

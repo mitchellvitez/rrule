@@ -26,9 +26,8 @@ library
   exposed-modules:
       Data.Time.RRule
   other-modules:
-      Paths_rrule
-      Parse
-      Types
+      Data.Time.RRule.Parse
+      Data.Time.RRule.Types
   hs-source-dirs:
       src
   build-depends:
@@ -46,8 +45,6 @@ library
 test-suite rrule-test
   type: exitcode-stdio-1.0
   main-is: Spec.hs
-  other-modules:
-      Paths_rrule
   hs-source-dirs:
       test
   ghc-options: -threaded -rtsopts -with-rtsopts=-N -Wall

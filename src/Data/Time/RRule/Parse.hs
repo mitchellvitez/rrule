@@ -1,19 +1,19 @@
-module Parse
+module Data.Time.RRule.Parse
   ( parseRRule
   )
 where
 
 import Prelude hiding (until)
-import Types (defaultRRule, RRule(..), Day(..), Frequency(..), ToRRule)
 import Control.Monad (msum)
+import qualified Control.Monad.Combinators.NonEmpty as NE
 import Data.List.NonEmpty (NonEmpty(..))
+import Data.Maybe (fromMaybe, catMaybes, isJust)
 import Data.Text (Text, intercalate, pack, unpack)
 import Data.Time.Clock (UTCTime)
 import Data.Time.Format (parseTimeM, defaultTimeLocale)
-import Data.Maybe (fromMaybe, catMaybes, isJust)
+import Data.Time.RRule.Types (defaultRRule, RRule(..), Day(..), Frequency(..), ToRRule)
 import Text.Megaparsec hiding (count)
 import Text.Megaparsec.Char.Lexer
-import qualified Control.Monad.Combinators.NonEmpty as NE
 
 type Parser = Parsec () Text
 
