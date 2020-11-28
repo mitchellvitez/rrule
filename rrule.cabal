@@ -1,7 +1,7 @@
 cabal-version: 1.12
 
 name:           rrule
-version:        0.1.0.0
+version:        0.1.1
 synopsis:       Recurrence rule parser and formatter
 description:    Parser for recurrence rules including formatting back to RFC 5545 recurrence
                 rule strings as well as providing English descriptions
