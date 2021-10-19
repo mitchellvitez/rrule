@@ -3,6 +3,7 @@ module Data.Time.RRule.Types
   , RRule(..)
   , Day(..)
   , Frequency(..)
+  , TimeOrDate(..)
   , ToRRule(toRRule)
   )
 where
@@ -12,6 +13,7 @@ import Data.List.NonEmpty (NonEmpty(..))
 import Data.Text (Text, intercalate, pack, unpack)
 import Data.Time.Format (formatTime, defaultTimeLocale)
 import Data.Time.Clock (UTCTime)
+import qualified Data.Time.Calendar as Cal (Day, toGregorian)
 
 class Show a => ToRRule a where
   toRRule :: a -> Text
@@ -27,6 +29,15 @@ instance (Show a, Integral a, ToRRule b) => ToRRule (a, b) where
 
 instance ToRRule UTCTime where
   toRRule = pack . formatTime defaultTimeLocale "%Y%m%dT%H%M%SZ"
+
+data TimeOrDate = Time UTCTime | Date Cal.Day
+  deriving (Eq, Show)
+
+instance ToRRule TimeOrDate where
+  toRRule (Time utc) = toRRule utc
+  toRRule (Date day) =
+    let (y,m,d) = Cal.toGregorian day
+    in pack (show y <> show m <> show d)
 
 instance ToRRule a => ToRRule (Maybe a) where
   toRRule Nothing = ""
@@ -70,7 +81,7 @@ data RRule = RRule
   , weekStart  :: Maybe Day                   -- ^ starting day of the week
   , frequency  :: Maybe Frequency             -- ^ how often to recur
   , count      :: Maybe Int                   -- ^ how many times to recur
-  , until      :: Maybe UTCTime               -- ^ what UTCTime to stop recurring after
+  , until      :: Maybe TimeOrDate            -- ^ what UTCTime or Date to stop recurring after
   , interval   :: Maybe Int                   -- ^ number of units to wait before recurring
   , bySecond   :: Maybe (NonEmpty Int)        -- ^ which second(s) to recur on
   , byMinute   :: Maybe (NonEmpty Int)        -- ^ which minute(s) to recur on

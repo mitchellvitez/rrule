@@ -96,6 +96,12 @@ main = hspec $ do
     it "yearly in June and July for 10 occurrences" $ do
       roundTrip "FREQ=YEARLY;COUNT=10;BYMONTH=6,7"
 
+    it "every month on Tuesday until November 30, 2021" $ do
+      roundTrip "RRULE:BYDAY=TU;INTERVAL=1;FREQ=MONTHLY;UNTIL=20211130"
+
+    it "every other week on Friday until November 19, 1997" $ do
+      roundTrip "RRULE:BYDAY=FR;INTERVAL=2;FREQ=WEEKLY;UNTIL=19971119"
+
     it "every other year on January, February, and March for 10 occurrences" $ do
       roundTrip  "FREQ=YEARLY;INTERVAL=2;COUNT=10;BYMONTH=1,2,3"
 
@@ -310,6 +316,14 @@ main = hspec $ do
     it "every 3 hours until 5:00 PM on a specific day" $ do
       description <$> fromText "FREQ=HOURLY;INTERVAL=3;UNTIL=19970902T170000Z" `shouldBe`
         Just "every 3rd hour until September 02, 1997 at 17:00:00"
+
+    it "every month on Tuesday until November 30, 2021" $ do
+      description <$> fromText "RRULE:BYDAY=TU;INTERVAL=1;FREQ=MONTHLY;UNTIL=20211130" `shouldBe`
+        Just "every month on Tuesday until November 30, 2021"
+
+    it "every other week on Friday until November 19, 1997" $ do
+      description <$> fromText "RRULE:BYDAY=FR;INTERVAL=2;FREQ=WEEKLY;UNTIL=19971119" `shouldBe`
+        Just "every other week on Friday until November 19, 1997"
 
     it "every 15 minutes for 6 occurrences" $ do
       description <$> fromText "FREQ=MINUTELY;INTERVAL=15;COUNT=6" `shouldBe`

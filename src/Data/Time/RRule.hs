@@ -19,6 +19,7 @@ import Data.Time.RRule.Types as Ty
   , RRule(..)
   , Day(..)
   , Frequency(..)
+  , TimeOrDate(..)
   , ToRRule(toRRule)
   )
 import Text.Megaparsec (parseMaybe)
@@ -146,8 +147,9 @@ frequencyDescription freq = case freq of
 countDescription :: Int -> Text
 countDescription n = "for " <> showText n <> " occurrences"
 
-untilDescription :: UTCTime -> Text
-untilDescription t = "until " <> (pack $ formatTime defaultTimeLocale "%B %d, %Y at %H:%M:%S" t)
+untilDescription :: Ty.TimeOrDate -> Text
+untilDescription (Ty.Time t) = "until " <> (pack $ formatTime defaultTimeLocale "%B %d, %Y at %H:%M:%S" t)
+untilDescription (Ty.Date d) = "until " <> (pack $ formatTime defaultTimeLocale "%B %d, %Y" d)
 
 weekStartDescription :: Day -> Text
 weekStartDescription d = "with weeks starting on " <> showText d
