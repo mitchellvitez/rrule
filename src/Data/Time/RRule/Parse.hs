@@ -2,7 +2,6 @@ module Data.Time.RRule.Parse
   ( parseRRule
   )
 where
-import Debug.Trace (traceShow)
 import Prelude hiding (until)
 import Control.Monad (msum)
 import qualified Control.Monad.Combinators.NonEmpty as NE
