@@ -2,7 +2,6 @@ module Data.Time.RRule.Parse
   ( parseRRule
   )
 where
-
 import Prelude hiding (until)
 import Control.Monad (msum)
 import qualified Control.Monad.Combinators.NonEmpty as NE
@@ -11,9 +10,10 @@ import Data.Maybe (fromMaybe, catMaybes, isJust)
 import Data.Text (Text, intercalate, pack, unpack)
 import Data.Time.Clock (UTCTime)
 import Data.Time.Format (parseTimeM, defaultTimeLocale)
-import Data.Time.RRule.Types (defaultRRule, RRule(..), Day(..), Frequency(..), ToRRule)
+import Data.Time.RRule.Types (defaultRRule, RRule(..), Day(..), Frequency(..), ToRRule, TimeOrDate(..))
 import Text.Megaparsec hiding (count)
 import Text.Megaparsec.Char.Lexer
+import qualified Data.Time.Calendar as Cal (Day, toGregorian)
 
 type Parser = Parsec () Text
 
@@ -50,7 +50,7 @@ parseVariable = do
   weekStart  <- parseVar "WKST"       parseDay
   frequency  <- parseVar "FREQ"       parseFrequency
   count      <- parseVar "COUNT"      decimal
-  until      <- parseVar "UNTIL"      parseUtcTime
+  until      <- parseVar "UNTIL"      parseTimeOrDate
   interval   <- parseVar "INTERVAL"   decimal
   bySecond   <- parseVar "BYSECOND"   parseSomeInt
   byMinute   <- parseVar "BYMINUTE"   parseSomeInt
@@ -83,6 +83,14 @@ parseIntDay = do
   n <- try . optional $ parseInt
   d <- parseDay
   return (fromMaybe 0 n, d)
+
+parseTimeOrDate :: Parser TimeOrDate
+parseTimeOrDate = fmap Time (try parseUtcTime) <|> fmap Date parseDate
+
+parseDate :: Parser Cal.Day
+parseDate = do
+  d <- takeP Nothing 8
+  parseTimeM False defaultTimeLocale "%Y%m%d" (unpack d)
 
 parseUtcTime :: Parser UTCTime
 parseUtcTime = do
